@@ -13,9 +13,12 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Primary,
+    onPrimary = OnPrimary,
+    background = Background,
+    onBackground = OnBackground,
+    secondary = Secondary,
+    onSecondary = OnSecondary
 
     /* Other default colors to override
     background = Color.White,
@@ -32,11 +35,7 @@ fun KoreatechChatBotTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
+    val colors = LightColorPalette
 
     MaterialTheme(
         colors = colors,
