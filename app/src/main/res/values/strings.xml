@@ -8,4 +8,8 @@
     <string name="login_id_not_input">아이디를 입력해주세요.</string>
     <string name="login_password_not_input">비밀번호를 입력해주세요.</string>
     <string name="login_login_fail">아이디와 비밀번호를 다시 한 번 확인해주세요.</string>
+
+    <!--chat bot-->
+    <string name="chat_bot">챗봇</string>
+    <string name="chat_bot_chat_send">전송</string>
 </resources>
