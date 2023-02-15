@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -34,6 +35,17 @@ fun LoginScreen(viewModel: LoginViewModel) {
     val context = LocalContext.current
     val idState = remember { mutableStateOf("") }
     val passwordState = remember { mutableStateOf("") }
+
+    if (viewModel.loginSuccess.value) {
+        (context as LoginActivity).goMainActivity()
+    }
+    with(viewModel.loginFailMessage.value) {
+        if (isNotEmpty()) android.widget.Toast.makeText(context, this, Toast.LENGTH_SHORT).show()
+    }
+
+    if (viewModel.isLoading.value) {
+        CircularProgressIndicator()
+    }
     ConstraintLayout {
         val (appBar, idTextField, passwordTextField, loginButton) = createRefs()
         TopAppBar(
@@ -127,7 +139,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
                     Toast.makeText(context, R.string.login_id_not_input, Toast.LENGTH_SHORT).show()
                 else if (passwordState.value.isBlank())
                     Toast.makeText(context, R.string.login_password_not_input, Toast.LENGTH_SHORT).show()
-                else viewModel.login()
+                else viewModel.login(idState.value, passwordState.value)
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.secondary,

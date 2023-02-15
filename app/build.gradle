@@ -49,6 +49,8 @@ android {
 }
 
 dependencies {
+    implementation project(':data')
+    implementation project(':domain')
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
@@ -77,6 +79,7 @@ dependencies {
 
     implementation project.retrofit
     implementation project.retrofitGson
+    implementation project.retrofitScalar
     implementation project.okhttp
     implementation project.okhttpLogging
 

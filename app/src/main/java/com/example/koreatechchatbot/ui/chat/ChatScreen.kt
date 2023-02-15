@@ -7,11 +7,14 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,10 +27,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.koreatechchatbot.R
 import com.example.koreatechchatbot.ui.theme.KoreatechChatBotTheme
-import com.google.accompanist.insets.ProvideWindowInsets
+import kotlinx.coroutines.launch
 
 @Composable
-fun ChatScreen(chats: List<Chat>) {
+fun ChatScreen(viewModel: ChatViewModel) {
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
     ConstraintLayout(
         modifier = Modifier
             .systemBarsPadding()
@@ -68,10 +73,11 @@ fun ChatScreen(chats: List<Chat>) {
                     end.linkTo(parent.end)
                     height = Dimension.fillToConstraints
                 },
-            reverseLayout = false
+            reverseLayout = false,
+            state = listState
         ) {
-            items(chats.size) { index ->
-                with(chats[index]) {
+            items(viewModel.chatting.value.size) { index ->
+                with(viewModel.chatting.value[index]) {
                     when (this) {
                         is Chat.BySelf -> ChatBySelf(chat = this)
                         is Chat.ByBotOnlyText -> ChatByBotOnlyText(chat = this)
@@ -88,7 +94,12 @@ fun ChatScreen(chats: List<Chat>) {
                     bottom.linkTo(parent.bottom)
                     width = Dimension.fillToConstraints
                 },
-            sendButtonOnClick = { TODO("전송 버튼 클릭") }
+            sendButtonOnClick = {
+                viewModel.chat(it)
+                coroutineScope.launch {
+                    listState.scrollToItem(viewModel.chatting.value.size)
+                }
+            }
         )
     }
 }
@@ -107,7 +118,7 @@ fun ChatScreenPreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            ChatScreen(chatList)
+            //ChatScreen(viewModel)
         }
     }
 }
