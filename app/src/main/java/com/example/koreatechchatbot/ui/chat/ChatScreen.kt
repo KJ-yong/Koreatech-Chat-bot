@@ -1,5 +1,6 @@
 package com.example.koreatechchatbot.ui.chat
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,9 +15,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,13 +34,15 @@ import com.example.koreatechchatbot.ui.theme.KoreatechChatBotTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun ChatScreen(viewModel: ChatViewModel) {
+fun ChatScreen(
+    chat: List<Chat>,
+    onSendButtonClick: (chat: String, chatScroll: (Int) -> Unit) -> Unit
+) {
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    val textFieldFocusRequester = remember { FocusRequester() }
     ConstraintLayout(
         modifier = Modifier
-            .systemBarsPadding()
-            .navigationBarsPadding()
             .fillMaxSize()
     ) {
         val (appBar, chatting, chatBar) = createRefs()
@@ -72,12 +78,17 @@ fun ChatScreen(viewModel: ChatViewModel) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     height = Dimension.fillToConstraints
+                }
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = {
+                        textFieldFocusRequester.freeFocus()
+                    })
                 },
             reverseLayout = false,
             state = listState
         ) {
-            items(viewModel.chatting.value.size) { index ->
-                with(viewModel.chatting.value[index]) {
+            items(chat.size) { index ->
+                with(chat[index]) {
                     when (this) {
                         is Chat.BySelf -> ChatBySelf(chat = this)
                         is Chat.ByBotOnlyText -> ChatByBotOnlyText(chat = this)
@@ -95,11 +106,13 @@ fun ChatScreen(viewModel: ChatViewModel) {
                     width = Dimension.fillToConstraints
                 },
             sendButtonOnClick = {
-                viewModel.chat(it)
-                coroutineScope.launch {
-                    listState.scrollToItem(viewModel.chatting.value.size)
+                onSendButtonClick(it) {
+                    coroutineScope.launch {
+                        listState.scrollToItem(it)
+                    }
                 }
-            }
+            },
+            focusRequester = textFieldFocusRequester
         )
     }
 }
@@ -118,7 +131,8 @@ fun ChatScreenPreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            //ChatScreen(viewModel)
+            ChatScreen(chatList) { _, _ ->
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ class ChatViewModel @Inject constructor(
     val chatting = mutableStateOf(listOf<Chat>())
     val chatFailMessage = mutableStateOf("")
 
-    fun chat(chat: String) {
+    fun chat(chat: String, chatScroll: (Int) -> Unit) {
         isLoading.value = true
         viewModelScope.launch {
             chatUseCase(chat)
@@ -26,6 +26,7 @@ class ChatViewModel @Inject constructor(
                         add(Chat.BySelf(chat))
                         add(Chat.ByBotOnlyText(it))
                         chatting.value = this
+                        chatScroll(chatting.value.size)
                     }
                 }
                 .onFailure {

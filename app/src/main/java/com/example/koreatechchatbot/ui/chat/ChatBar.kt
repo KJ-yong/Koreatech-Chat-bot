@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
@@ -33,10 +34,10 @@ import com.example.koreatechchatbot.ui.theme.Yellow
 @Composable
 fun ChatBar(
     modifier: Modifier = Modifier,
-    sendButtonOnClick: (String) -> Unit
+    sendButtonOnClick: (String) -> Unit,
+    focusRequester: FocusRequester
 ) {
     val chatState = remember { mutableStateOf("") }
-    val textFieldFocusRequester = remember { FocusRequester() }
     ConstraintLayout(
         modifier = modifier
             .fillMaxWidth()
@@ -54,7 +55,7 @@ fun ChatBar(
         )
         BasicTextField(
             modifier = Modifier
-                .focusRequester(textFieldFocusRequester)
+                .focusRequester(focusRequester)
                 .constrainAs(textField) {
                     top.linkTo(divider.bottom)
                     bottom.linkTo(parent.bottom)
@@ -101,7 +102,8 @@ fun ChatBarPreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            ChatBar(Modifier.fillMaxWidth(), {})
+            val textFieldFocusRequester = remember { FocusRequester() }
+            ChatBar(Modifier.fillMaxWidth(), {}, textFieldFocusRequester)
         }
     }
 }

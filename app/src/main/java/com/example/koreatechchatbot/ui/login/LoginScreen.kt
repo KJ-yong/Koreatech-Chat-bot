@@ -4,6 +4,8 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -40,14 +42,10 @@ fun LoginScreen(viewModel: LoginViewModel) {
         (context as LoginActivity).goMainActivity()
     }
     with(viewModel.loginFailMessage.value) {
-        if (isNotEmpty()) android.widget.Toast.makeText(context, this, Toast.LENGTH_SHORT).show()
-    }
-
-    if (viewModel.isLoading.value) {
-        CircularProgressIndicator()
+        if (isNotEmpty()) Toast.makeText(context, this, Toast.LENGTH_SHORT).show()
     }
     ConstraintLayout {
-        val (appBar, idTextField, passwordTextField, loginButton) = createRefs()
+        val (appBar, idTextField, passwordTextField, loginButton, loadingProgress) = createRefs()
         TopAppBar(
             modifier = Modifier
                 .constrainAs(appBar) {
@@ -151,6 +149,19 @@ fun LoginScreen(viewModel: LoginViewModel) {
             Text(
                 text = stringResource(id = R.string.login),
                 fontSize = 16.sp
+            )
+        }
+        if (viewModel.isLoading.value) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .constrainAs(loadingProgress) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+                    .width(100.dp)
+                    .height(100.dp)
             )
         }
     }

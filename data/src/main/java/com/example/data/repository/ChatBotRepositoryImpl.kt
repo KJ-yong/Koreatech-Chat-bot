@@ -8,7 +8,6 @@ class ChatBotRepositoryImpl @Inject constructor(
     private val chatBotRemoteDataSource: ChatBotRemoteDataSource
 ) : ChatBotRepository {
     override suspend fun chat(chat: String): String {
-        val chatResponse =  chatBotRemoteDataSource.chat(chat)
-        return chatResponse.answer
+        return chatBotRemoteDataSource.chatFlow(chat).answer
     }
 }

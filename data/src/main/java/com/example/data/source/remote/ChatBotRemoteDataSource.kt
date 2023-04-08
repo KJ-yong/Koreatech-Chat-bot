@@ -7,5 +7,7 @@ import javax.inject.Inject
 class ChatBotRemoteDataSource @Inject constructor(
     private val chatBotApi: ChatBotApi
 ) {
-    suspend fun chat(chat: String): ChatBotResponse = chatBotApi.chat(chat)
+    suspend fun chatFlow(chat: String): ChatBotResponse {
+        return chatBotApi.chat(chat)
+    }
 }
