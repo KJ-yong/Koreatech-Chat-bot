@@ -36,6 +36,19 @@ buildscript {
 
         def security_version = "1.1.0-alpha03"
         crypto = "androidx.security:security-crypto:$security_version"
+
+        def firebase_database_version = "20.2.1"
+        database = "com.google.firebase:firebase-database:$firebase_database_version"
+        databaseKtx = "com.google.firebase:firebase-database-ktx:$firebase_database_version"
+
+        def room_version = "2.5.0"
+        room = "androidx.room:room-runtime:$room_version"
+        roomAnnotation = "androidx.room:room-compiler:$room_version"
+        roomKapt = "androidx.room:room-compiler:$room_version"
+        roomKsp = "androidx.room:room-compiler:$room_version"
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.3.15'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

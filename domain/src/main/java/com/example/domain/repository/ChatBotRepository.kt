@@ -2,5 +2,5 @@ package com.example.domain.repository
 
 
 interface ChatBotRepository {
-    suspend fun chat(chat: String): String
+    suspend fun chat(chat: String, fcmToken: String)
 }

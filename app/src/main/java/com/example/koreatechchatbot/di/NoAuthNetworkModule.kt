@@ -54,10 +54,4 @@ object NoAuthNetworkModule {
     fun provideUserNoAuthApi(
         @NoAuth retrofit: Retrofit
     ) = retrofit.create(UserNoAuthApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideChatBotApi(
-        @NoAuth retrofit: Retrofit
-    ) = retrofit.create(ChatBotApi::class.java)
 }
