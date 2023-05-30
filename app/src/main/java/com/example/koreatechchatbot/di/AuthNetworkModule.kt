@@ -1,5 +1,6 @@
 package com.example.koreatechchatbot.di
 
+import com.example.data.api.ChatBotApi
 import com.example.data.api.UserAuthApi
 import com.example.data.source.local.TokenLocalDataSource
 import com.example.koreatechchatbot.di.qualifier.Auth
@@ -76,4 +77,10 @@ object AuthNetworkModule {
     fun provideUserAuthApi(
         @Auth retrofit: Retrofit
     ) = retrofit.create(UserAuthApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideChatApi(
+        @Auth retrofit: Retrofit
+    ) = retrofit.create(ChatBotApi::class.java)
 }

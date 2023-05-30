@@ -53,4 +53,8 @@ dependencies {
     implementation project.okhttp
     implementation project.okhttpLogging
     implementation project.crypto
+
+    implementation project.room
+    annotationProcessor project.roomAnnotation
+    kapt project.roomKapt
 }
