@@ -53,26 +53,51 @@ class ChatViewModel @Inject constructor(
                 })
             }
             Log.e("test_token", "in viewModel $fcmToken")
-            fcmToken?.let {
-                chatUseCase(chat, it)
-                    .onSuccess {
-                        Log.e("test", "chat 보내기 성공")
-                        insertChatRoom(true, chat)
-                        with(mutableListOf<Chat>()) {
-                            addAll(chatting.value)
-                            add(Chat.BySelf(chat))
-                            chatting.value = this
+            fcmToken?.let { fcmToken ->
+                if (chat.trim() == "/출처") {
+                    chatUseCase.getSource(fcmToken)
+                        .onSuccess {
+                            Log.e("test", "출처 요청 성공")
+                            displayUserChat(chat)
                         }
-                    }
-                    .onFailure {
-                        Log.e("test", "chat 보내기 실패 : ${it.message.toString()}")
-                        chatFailMessage.value = it.message.toString()
-                    }
+                        .onFailure {
+                            Log.e("test", "출처 요청 실패 : ${it.message.toString()}")
+                            chatFailMessage.value = it.message.toString()
+                        }
+                } else if (chat.trim() == "/초기화") {
+                    chatUseCase.initContext(fcmToken)
+                        .onSuccess {
+                            Log.e("test", "context 초기화 요청 성공")
+                            displayUserChat(chat)
+                        }
+                        .onFailure {
+                            Log.e("test", "context 초기화 요청 실패 : ${it.message.toString()}")
+                            chatFailMessage.value = it.message.toString()
+                        }
+                } else {
+                    chatUseCase(chat, fcmToken)
+                        .onSuccess {
+                            Log.e("test", "chat 보내기 성공")
+                            displayUserChat(chat)
+                        }
+                        .onFailure {
+                            Log.e("test", "chat 보내기 실패 : ${it.message.toString()}")
+                            chatFailMessage.value = it.message.toString()
+                        }
+                }
             }
         }
         isLoading.value = false
     }
 
+    fun displayUserChat(chat: String) {
+        insertChatRoom(true, chat)
+        with(mutableListOf<Chat>()) {
+            addAll(chatting.value)
+            add(Chat.BySelf(chat))
+            chatting.value = this
+        }
+    }
     fun getMessage(message: String) {
         val chat = Chat.ByBotOnlyText(message)
         insertChatRoom(false, message)
@@ -92,5 +117,9 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             chatRoomUseCase.insertChat(com.example.domain.model.Chat(++maxId, isUser, chat))
         }
+    }
+
+    fun initChatFailMessage() {
+        chatFailMessage.value = ""
     }
 }

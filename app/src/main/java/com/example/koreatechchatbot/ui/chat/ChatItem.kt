@@ -67,7 +67,7 @@ fun ChatByBotOnlyText(
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
-            Text(
+            LinkifyText(
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .background(Color.White, RoundedCornerShape(6.dp))

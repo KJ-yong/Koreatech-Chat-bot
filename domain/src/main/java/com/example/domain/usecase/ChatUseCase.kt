@@ -11,4 +11,16 @@ class ChatUseCase @Inject constructor(
             chatBotRepository.chat(chat, fcmToken)
         }
     }
+
+    suspend fun getSource(fcmToken: String): Result<Unit> {
+        return kotlin.runCatching {
+            chatBotRepository.getSource(fcmToken)
+        }
+    }
+
+    suspend fun initContext(fcmToken: String): Result<Unit> {
+        return kotlin.runCatching {
+            chatBotRepository.initContext(fcmToken)
+        }
+    }
 }

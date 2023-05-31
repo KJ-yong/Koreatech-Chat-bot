@@ -72,7 +72,7 @@ class ChatBotActivity : ComponentActivity() {
                         Log.e("test_token", "get Token : $token")
                         chatViewModel.saveFcmToken(token)
                     })
-                    ChatScreen(chatViewModel.chatting.value) { string ->
+                    ChatScreen(chatViewModel) { string ->
                         chatViewModel.chat(string)
                     }
                 }
