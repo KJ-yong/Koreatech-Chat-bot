@@ -29,4 +29,8 @@ class LoginViewModel @Inject constructor(
             isLoading.value = false
         }
     }
+
+    fun initFailMessage() {
+        loginFailMessage.value = ""
+    }
 }

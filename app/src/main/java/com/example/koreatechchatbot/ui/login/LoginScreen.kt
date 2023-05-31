@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -43,8 +44,12 @@ fun LoginScreen(viewModel: LoginViewModel) {
     }
     with(viewModel.loginFailMessage.value) {
         if (isNotEmpty()) Toast.makeText(context, this, Toast.LENGTH_SHORT).show()
+        viewModel.initFailMessage()
     }
-    ConstraintLayout {
+    ConstraintLayout(
+        modifier = Modifier
+            .imePadding()
+    ) {
         val (appBar, idTextField, passwordTextField, loginButton, loadingProgress) = createRefs()
         TopAppBar(
             modifier = Modifier

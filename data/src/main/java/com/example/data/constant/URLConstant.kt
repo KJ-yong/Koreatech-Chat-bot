@@ -11,5 +11,7 @@ object URLConstant {
 
     object ChatBot {
         const val CHAT = "chat/v1/chat"
+        const val SOURCE = "chat/v1/source"
+        const val CONTEXT = "chat/v1/context"
     }
 }
