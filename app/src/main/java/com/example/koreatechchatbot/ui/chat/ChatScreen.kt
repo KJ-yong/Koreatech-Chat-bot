@@ -133,6 +133,7 @@ fun ChatScreen(
                                 .fillMaxWidth()
                                 .padding(bottom = 12.dp)
                         )
+                        /*
                         Text(
                             text = stringResource(id = R.string.chat_bot_command_source) ,
                             textAlign = TextAlign.Start,
@@ -140,6 +141,7 @@ fun ChatScreen(
                             color = Color.Black,
                             modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 8.dp)
                         )
+                        */
                         Text(
                             text = stringResource(id = R.string.chat_bot_command_init_context) ,
                             textAlign = TextAlign.Start,

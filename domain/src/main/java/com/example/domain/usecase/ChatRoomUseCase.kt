@@ -9,4 +9,9 @@ class ChatRoomUseCase @Inject constructor(
 ) {
     suspend fun getAllChat() = chatRoomRepository.getAll()
     suspend fun insertChat(chat: Chat) = chatRoomRepository.insertChat(chat)
+    suspend fun removeAllChat(): Result<Unit> {
+        return kotlin.runCatching {
+            chatRoomRepository.removeAllChat()
+        }
+    }
 }
