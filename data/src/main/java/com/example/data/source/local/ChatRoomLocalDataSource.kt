@@ -8,7 +8,7 @@ import javax.inject.Inject
 class ChatRoomLocalDataSource @Inject constructor(
     private val chatRoomDB: ChatRoomDatabase
 ) {
-    val dao = chatRoomDB.dao()
+    private val dao = chatRoomDB.dao()
 
     suspend fun getAllChat() = withContext(Dispatchers.IO) {
         dao.getAll()
@@ -16,5 +16,9 @@ class ChatRoomLocalDataSource @Inject constructor(
 
     suspend fun insertChat(chat: ChatEntity) = withContext(Dispatchers.IO){
         dao.insert(chat)
+    }
+
+    suspend fun removeAllChat() = withContext(Dispatchers.IO) {
+        dao.removeAllChat()
     }
 }

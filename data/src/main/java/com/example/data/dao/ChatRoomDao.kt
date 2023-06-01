@@ -12,4 +12,7 @@ interface ChatRoomDao {
 
     @Insert
     fun insert(chat: ChatEntity)
+
+    @Query("DELETE From ChatEntity")
+    fun removeAllChat()
 }

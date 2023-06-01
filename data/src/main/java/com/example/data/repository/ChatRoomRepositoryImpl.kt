@@ -21,4 +21,8 @@ class ChatRoomRepositoryImpl @Inject constructor(
     override suspend fun insertChat(chat: Chat) {
         chatRoomLocalDataSource.insertChat(ChatEntity(chat.id, chat.isUser, chat.text))
     }
+
+    override suspend fun removeAllChat() {
+        chatRoomLocalDataSource.removeAllChat()
+    }
 }

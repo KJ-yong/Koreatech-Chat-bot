@@ -16,5 +16,5 @@
     <string name="chat_bot_help_message">채팅창에 질문을 입력하고 전송하면 챗봇이 답변해줍니다.</string>
     <string name="chat_bot_command">명령어</string>
     <string name="chat_bot_command_source">/출처 - 답변의 출처를 요청합니다.</string>
-    <string name="chat_bot_command_init_context">/초기화 - 현재까지 질문했던 context를 초기화 합니다.</string>
+    <string name="chat_bot_command_init_context">/초기화 - 현재까지 질문했던 context를 초기화 합니다. 채팅 기록도 초기화 됩니다.</string>
 </resources>
